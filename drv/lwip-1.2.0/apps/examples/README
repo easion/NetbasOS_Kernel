@@ -1,0 +1,20 @@
+- In the dns directory there's an example of how to write a DNS client
+using  ares  and RTL-lwIP.   
+
+- In the raw_api  directory there's an example  of how to use the  raw
+API.
+
+- In the sequential_api directory there  are some examples showing how
+to use the sequential  API. Particulary, the  tcpclient example in the
+tcp_echo   subdirectory  also shows   how  to use  sys_thread_register
+despite of sys_thread_new.
+
+- In the sockets_api directory you'll find a TCP echo client using the
+sockets API.
+
+
+RTL-lwIP home page:
+
+http://rtl-lwip.sourceforge.net
+
+Please send comments to Sergio Perez <serpeal@upvnet.upv.es>

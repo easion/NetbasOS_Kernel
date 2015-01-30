@@ -1,0 +1,44 @@
+
+procfs:     file format elf32-i386
+
+RELOCATION RECORDS FOR [.text]:
+OFFSET   TYPE              VALUE 
+00000007 R_386_32          .rodata.str1.1
+0000000c R_386_PC32        kprintf
+00000013 R_386_32          .data
+00000018 R_386_PC32        install_fs
+0000002b R_386_32          .data
+00000030 R_386_PC32        deinstall_fs
+0000004f R_386_32          .rodata.str1.32
+00000054 R_386_PC32        kprintf
+0000006f R_386_32          .rodata.str1.1
+00000074 R_386_PC32        kprintf
+0000008a R_386_32          .rodata.str1.1
+0000008f R_386_PC32        kprintf
+000000a7 R_386_32          .rodata.str1.1
+000000ac R_386_PC32        kprintf
+000000bb R_386_32          .rodata.str1.1
+000000c0 R_386_PC32        kprintf
+000000cf R_386_32          .rodata.str1.1
+000000d4 R_386_PC32        kprintf
+000000e7 R_386_32          .rodata.str1.1
+000000ec R_386_PC32        kprintf
+000000ff R_386_32          .rodata.str1.1
+00000104 R_386_PC32        kprintf
+
+
+RELOCATION RECORDS FOR [.data]:
+OFFSET   TYPE              VALUE 
+00000244 R_386_32          .rodata.str1.1
+00000248 R_386_32          .rodata.str1.1
+0000024c R_386_32          .rodata.str1.1
+00000258 R_386_32          procfs_opendir
+00000260 R_386_32          procfs_readdir
+00000264 R_386_32          procfs_dir_size
+0000026c R_386_32          procfs_fread
+00000288 R_386_32          procfs_probe
+0000028c R_386_32          procfs_mount
+00000290 R_386_32          procfs_unmount
+00000298 R_386_32          procfs_open
+
+

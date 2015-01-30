@@ -1,0 +1,129 @@
+Serial chip type: 16550A (16-byte FIFO)
+Serial chip type: 16550A (16-byte FIFO)
+wakeup init task ...
+start schedule ...
+Active partition : 1 
+entry loopif_dispatcher
+CDROM TYPE VMware Virtual IDE Hard Drive           
+CDROM TYPE VMware Virtual IDE CDROM Drive          
+atapi_selectDevice controller=1,deviceNo=0dev_open ret->devno=f600
+error sector size
+error sector size
+dev_read() at 0x648180 failed()!ffffffff
+iso9660_probe we found ISO_VD_SUPPLEMENTAL at blk18
+iso9660_mount called
+vfs_mount /dev/atapi to / (f600)sucess!
+kb_open called
+dev_open ret->devno=400
+Device is not IO-based!!!Device is not IO-based!!!loading usb modules ...n
+error call evhand rootbus
+try call evhand 6ab597 6ab328
+root_bus_module_handler:load root bus
+make_device:626: root at no device as unit 0
+devclass_find_internal:582: creating root
+devclass_add_device:179: Sÿ in devclass root
+devclass_alloc_unit:111: unit 0 in devclass root
+devclass_alloc_unit:151: now: unit 0 in devclass root
+devclass_find_internal:582: creating pci
+driver_module_handler:1500: Loading module: driver uhci on bus pci
+devclass_add_driver:215: uhci
+devclass_find_internal:582: creating uhci
+devclass_find_internal:582: creating cardbus
+driver_module_handler:1500: Loading module: driver uhci on bus cardbus
+devclass_add_driver:215: uhci
+driver_module_handler:1500: Loading module: driver usb on bus uhci
+devclass_add_driver:215: usb
+devclass_find_internal:582: creating usb
+devclass_find_internal:582: creating ohci
+driver_module_handler:1500: Loading module: driver usb on bus ohci
+devclass_add_driver:215: usb
+devclass_find_internal:582: creating ehci
+driver_module_handler:1500: Loading module: driver usb on bus ehci
+devclass_add_driver:215: usb
+devclass_find_internal:582: creating uhub
+driver_module_handler:1500: Loading module: driver uhub on bus uhub
+devclass_add_driver:215: uhub
+driver_module_handler:1500: Loading module: driver uhub on bus usb
+devclass_add_driver:215: uhub
+devclass_find_internal:582: creating ushub
+driver_module_handler:1500: Loading module: driver usb_linux on bus ushub
+devclass_add_driver:215: usb_linux
+devclass_find_internal:582: creating usb_linux
+device_add_child 111
+device_add_child_ordered:682:  at root with order 0 as unit 4294967295
+make_device:626:  at root as unit 4294967295
+devclass_add_device:179:  in devclass pci
+devclass_alloc_unit:111: unit 4294967295 in devclass pci
+devclass_alloc_unit:151: now: unit 0 in devclass pci
+device_add_child_ordered:682:  at pci with order 0 as unit 4294967295
+make_device:626:  at pci as unit 4294967295
+File compat_bsd_utils.c:Got device_get_dma_tag() line250
+File compat_bsd_utils.c:Got usb_alloc_mem() line127
+USB Ctrl:
+ VMware USB controller Base class:12  Sub class:3 
+ Vendorid:5549  Deviceid:6518  Bus:0  Dev_fn:58
+ [IRQ:9] IOBase4:1060 Size:1f 
+ Rombase-0, Size-0,  
+device_add_child start:
+bus_generic_attach 111 ...
+device_probe_and_attach ...
+device_probe_child:1001: Trying uhci
+devclass_add_device:179:  in devclass uhci
+devclass_alloc_unit:111: unit 4294967295 in devclass uhci
+devclass_alloc_unit:151: now: unit 0 in devclass uhci
+uhci_pci_probe called
+devclass_delete_device:268: uhci in devclass uhci
+device_add_child done:69d300
+APM BIOS Version : 1.2
+apm present
+apm init done
+loading usb modules ...n
+Found PCnet/PCI at lx, irq 8192.
+pcnet32: PCnet/PCI II 79C970A at lx, IRQ 8192
+pcnet32 Mac address : 000c29395005
+pcnet32 assigned IRQ 10.
+pcnet32.c:v1.25kf 26.9.1999 tsbogend@alpha.franken.de
+register_ether_interface:eth
+Not Found supportable card(devid:0x2000)
+Net card:
+ AMD Ethernet interface Base class:2  Sub class:0 
+ Vendorid:4130  Deviceid:8192  Bus:2  Dev_fn:0
+ [IRQ:10] IOBase0:2000 Size:7f 
+ Rombase-0, Size-65535,  
+no ne2000 netcard
+module_insert: dll_main() init failed
+netif_ioctl_cfg find eth
+dev_open ret->devno=4000
+mac address  0- c-29-39-50- 5
+netif_ioctl_cfg use dhcp eth
+binding_complete dhcp with ok
+begin dhcp  eth done
+Ensoniq 1371 driver
+found chip, vendor id 0x1274 device id 0x1371 revision 0x02
+try to obtain IRQ 9, ...
+found es1371 rev 2 at io 2080 irq 9
+ features: joystick 0x0
+ac97_codec: AC97  codec, vendor id1: 0x4352, id2: 0x5913 (Cirrus Logic CS4297A rev A)
+dsp Found!
+inkmod fb module...
+debug mode
+giwn: aero_theme_init succ
+Thursday 1 January 1970
+00 00 
+input_server_init idinput_tid=136 
+input_server_init server_event_thread=a1c000 
+entry gi_main 
+dev_open ret->devno=f300
+VESA Found!
+phy addr is 0xf0000000
+vbe Get mode info ...
+dev_open ret->devno=f400
+kgi_initialize succ
+set_input_manager succ
+dev_open ret->devno=f200
+kgi_create_font: with 244 nchars
+kgi_create_font: with 190 nchars
+giwn: gi_init succ
+giwn: gi_select_events_mask row=600,si.scr_width=800
+giwn: tk_create_taskbar 333 2
+init_font succ

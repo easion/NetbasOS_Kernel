@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# A test script to add rules
+
+PRG=/bin/ipfw
+
+myfun() {
+	$PRG add 10 count icmp from any to 131.114.9.128
+	
+	$PRG del 10
+	
+}
+
+#for ((i=0;i<100;i++)) ; do
+	myfun
+#done

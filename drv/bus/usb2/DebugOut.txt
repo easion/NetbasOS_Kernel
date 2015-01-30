@@ -1,0 +1,213 @@
+Serial chip type: 16550A (16-byte FIFO)
+Serial chip type: 16550A (16-byte FIFO)
+wakeup init task ...
+start schedule ...
+Active partition : 1 
+entry loopif_dispatcher
+CDROM TYPE VMware Virtual IDE Hard Drive           
+CDROM TYPE VMware Virtual IDE CDROM Drive          
+atapi_selectDevice controller=1,deviceNo=0error sector size
+error sector size
+dev_read() at 0x63e1c0 failed()!ffffffff
+iso9660_probe we found ISO_VD_SUPPLEMENTAL at blk18
+iso9660_mount called
+vfs_mount /dev/atapi to / (f600)sucess!
+kb_open called
+pci_devtree_init 111
+Device is not IO-based!!!Device is not IO-based!!!loading usb modules ...n
+File devclass.c:Got BUS_DRIVER_ADDED() line211
+File devclass.c:Got BUS_DRIVER_ADDED() line211
+File devclass.c:Got BUS_DRIVER_ADDED() line211
+device_add_child_usb start:
+uhci_pci_probe UHCI (generic) USB controller called
+uhci_pci_attach called
+pci_get_base_addr:i=4 sc->dev->base[i]=1060
+pci_get_base_addr:i=4 sc->dev->base[i]=1060
+iomem =  1060
+uhci on irq 9
+call uhci_init 
+uhci_init: start
+uhci_dumpregs:  regs: cmd=0000, sts=0020, intr=0000, frnum=0000, flbase=00000000, sof=0040, portsc1=0080, portsc2=0080
+uhci_reset: resetting the HC
+dpp delay 100...
+dpp0 delay 100...
+UHCI_CMD=0
+dpp done_1 delay 10...
+UHCI_STS=32
+dpp done_2 delay 9...
+uhci_start: enabling
+device_probe_and_attach uhci_init 
+pci_get_base_addr:i=0 sc->dev->base[i]=e8900000
+map physicalAddress=e8900000,mapSize=4095
+pci_get_base_addr:i=0 sc->dev->base[i]=e8900000
+iomem =  e8900000
+(New EHCI DeviceId=0x00000770)
+ehci_init: start
+cmd=0x01000010
+ EHCI_CMD_PSE
+sts=0x00000006
+ EHCI_STS_PCD
+ EHCI_STS_ERRINT
+ien=0x00000002
+frindex=0x00000000 ctrdsegm=0x00000000 periodic=0x00001000 async=0x00000000
+ehci sc->sc_offs 10
+EHCI version 1.0
+ehci_init: sparams=0x6
+ehci_init: cparams=0x2
+ehci_init: : resetting
+QH(7dd000) at 0x007dd000:
+  link=0x007dd002<QH>
+  endp=0x0000a000
+    addr=0x00 inact=0 endpt=0 eps=2 dtc=0 hrecl=1
+    mpl=0x0 ctl=0 nrl=0
+  endphub=0x40000000
+    smask=0x00 cmask=0x00 huba=0x00 port=0 mult=1
+  curqtd=0x00000000<>
+Overlay qTD:
+  next=0x00000001<T> altnext=0x00000001<T>
+  status=0x00000040: toggle=0 bytes=0x0 ioc=0 c_page=0x0
+    cerr=0 pid=0 stat=NOT_ACTIVE-HALTED
+  buffer[0]=0x00000000
+  buffer[1]=0x00000000
+  buffer[2]=0x00000000
+  buffer[3]=0x00000000
+  buffer[4]=0x00000000
+  buffer_hi[0]=0x00000000
+  buffer_hi[1]=0x00000000
+  buffer_hi[2]=0x00000000
+  buffer_hi[3]=0x00000000
+  buffer_hi[4]=0x00000000
+ehci 111 on irq 5 sc 7dc000 sc_bus.bdev 7e8000 - 7e8000
+a: ehci on irq 5 sc 7dc000 sc_bus.bdev 7e8000: softc 7dc000 7e7788
+device_add_child done:63f200
+devclass_get_maxunit max=4 ...
+__usb_attach ...
+USB revision 1.0
+File compat_bsd.c:Got microtime() line301
+(mutex already locked)File compat_bsd.c:Got wakeup() line364
+File compat_bsd.c:Got selwakeuppri() line370
+uhci_pipe_init: pipe=7e9004, addr=0, endpt=0 (0)
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+uhci_root_ctrl_enter: type=0x00 request=00
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+uhci_device_done: xfer=7e9418, pipe=7e9004 length=8 error=5
+File compat_bsd.c:Got microtime() line301
+File compat_bsd.c:Got wakeup() line364
+File compat_bsd.c:Got selwakeuppri() line370
+root hub problem, error=USBD_SET_ADDR_FAILED
+usb_create_event_thread succ
+__usb_attach ...
+mtx_assert(MA_OWNED) not trueUSB revision 2.0
+File compat_bsd.c:Got microtime() line301
+File compat_bsd.c:Got wakeup() line364
+File compat_bsd.c:Got selwakeuppri() line370
+ehci_pipe_init: pipe=7e9004, addr=0, endpt=0 (0)
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+File compat_bsd.c:Got wakeup() line364
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5
+ehci_root_ctrl_enter: type=0x00 request=0x00
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=18
+File compat_bsd.c:Got wakeup() line364
+ehci_device_done: xfer=667818, pipe=7e9004 length=8 error=5

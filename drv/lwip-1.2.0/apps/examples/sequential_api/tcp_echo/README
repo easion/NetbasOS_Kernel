@@ -1,0 +1,31 @@
+INTRODUCTION 
+This is an example of a tcpserver and client running both in RTLinux.
+
+CONFIGURATION 
+Modify sources to assign correctly IP addresses and run >make examples
+in the directory containing the Makefile.
+
+In the $(RTL_LWIP_SOURCES)/unix are available  some Linux apps to test
+tcpserver and tcpclient modules.
+
+If    you   run   in   RT-Linux  the    tcpserver.o   module,  in  the
+$(RTL_LWIP_SOURCES)/unix run
+
+>tcpClient <tcpserver_ip> <text> 
+
+in other machine to see how they communicate.
+
+If  you want  to  run in  RT-Linux  the   tcpclient.o module, in   the
+$(RTL_LWIP_SOURCES)/unix previously you have to had run
+
+>tcpServer
+
+in another machine.
+
+
+
+RTL-lwIP home page:
+
+http://rtl-lwip.sourceforge.net
+
+Please send comments to Sergio Perez <serpeal@upvnet.upv.es>

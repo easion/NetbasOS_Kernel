@@ -1,0 +1,150 @@
+Floppy Controller Routines
+==========================
+
+NOTE: This code falls under the GNU General Public License.  Please see the
+      copyright notice at the top of each source file and the file "copying"
+
+These are some routines to control a PC-compatible floppy controller
+(basically an NEC765 or i82077/82078 compatible chip).  While the routines
+are meant only for use with high-density floppies (DS2/HD, 2M unformatted
+capacity), I have not used any floppy commands that may be available only on
+some advanced chipsets (such as perpendicular recording, etc).  This means
+that these routines should work on pretty much any reasonably modern
+AT-class machine.  These routines are designed for DJGPP 2.01, but it should
+be easy to convert them to any other protected-mode compiler.  They were
+originally written with gcc 2.7.2.1, but they work fine if compiled with gcc
+2.8.1.
+
+The routines in this small library will:
+
+* reset the drive
+* turn the drive motor on or off
+* seek to any given track
+* format a single track
+* read or write any single block on the disk
+
+
+The routines are able to handle disks in 1.44M and 1.68M format.  The only
+reason I haven't gone all the way to 1.96M is that I didn't want to use any
+advanced commands for the sake of compatibility (Microsoft must have had the
+same thing in mind when they came up with their own 1.68M DMF disks).
+
+Some things to note:
+
+* These routines are quite primitive (I wrote them to teach myself about the
+  FDC) and so don't do buffering, multi-sector transfers or any other things
+  you might expect to find in a "real" floppy device driver.
+
+* The routines only manipulate the first floppy in the system (drive A:),
+  but it should not be too hard to expand the code to handle other drives.
+  The reason I haven't is that I don't have two drives, so testing for
+  things like conflicts would be kinda tricky ;)
+
+* The routines use DPMI services for hooking up interrupts, allocating
+  memory, etc.  They also use the int 1ch BIOS timer running at the usual
+  18.2Hz.  If you want to use these in a garage-built OS, remember to write
+  your own version of the functions in util.c and to hook to your own timer
+  interrupt.
+
+
+The routines are as follows:
+
+------------------------------------------------------------------------------
+
+void init();
+
+Call this ONLY ONCE at the beginning of your program/OS/whatever
+
+------------------------------------------------------------------------------
+
+void deinit(void);
+
+Call this when you're done.  If you don't, any floppy access after your
+program's finished will crash your machine.  Obviously this doesn't apply to
+OS writers ;)
+
+------------------------------------------------------------------------------
+
+void reset(void);
+
+Call this after any drive errors.  It sets the drive back to a safe state.
+
+------------------------------------------------------------------------------
+
+BOOL diskchange(void);
+
+Call this to find out if the user changed the disk since the last operation.
+In that case, you should call log_disk().
+
+------------------------------------------------------------------------------
+
+void motoron(void);
+
+Turns the drive's motor on.
+
+------------------------------------------------------------------------------
+
+void motoroff(void);
+
+Starts a timer that, when it runs down, turns off the drive motor.
+
+------------------------------------------------------------------------------
+
+void recalibrate(void);
+
+Sends the drive heads back to track 0
+
+------------------------------------------------------------------------------
+
+BOOL seek(int track);
+
+Sends the drive heads to the named track.  Returns FALSE if anything went
+wrong.
+
+------------------------------------------------------------------------------
+
+BOOL log_disk(DrvGeom *g);
+
+Call this after every disk change.  It detects the type of disk in the drive
+(1.44M or 1.68M) and resets the drive.  Returns FALSE if the disk is not
+recognizable, otherwise copies the drive geometry to the buffer pointed at
+by the argument (can be NULL if you don't want to know).
+
+------------------------------------------------------------------------------
+
+BOOL read_block(int block,BYTE *blockbuff);
+
+Reads a single block from the drive.  Pass a logical block address (similar
+to the value passed in DX to int 25h/26h but 32 bits) and a pointer to a
+512-byte buffer, which whill receive the data in the given disk block.
+Returns FALSE if anything went wrong.
+
+Logical block addresses are a drive-geometry-independent way of accessing a
+block on a disk.  Instead of bothering with head:track:sector addresses, a
+logical block address lets you address a block as a 32 bit integer, with the
+boot block being at logical address 0, the block after that at address 1,
+etc.
+
+------------------------------------------------------------------------------
+
+BOOL write_block(int block,BYTE *blockbuff);
+
+Writes a single block to the drive.  Pass a logical block address (see
+read_block()) and a pointer to a 512-byte buffer containing the data to be
+written to the given disk block.  Returns FALSE if anything went wrong.
+
+------------------------------------------------------------------------------
+
+BOOL format_track(BYTE track,DrvGeom *g);
+
+This formats a given track, with the drive geometry indicated by the second
+argument.  To format a disk, call this once for each track.  The geometry is
+given by the DGxxx_yyy constants in fdc.h
+
+Although the geometry does not have to be the same for all tracks in a disk,
+the routines here assume that they are, so you'll have to compensate if you
+do decide to mix different types of track in the same disk (why would you
+want to? hint: the BIOS boot routines probably won't recognise a 1.68M
+disk...)
+
+------------------------------------------------------------------------------

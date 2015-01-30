@@ -1,0 +1,105 @@
+
+./objs/drv_c.o:     file format elf32-littlearm
+./objs/drv_c.o
+architecture: arm, flags 0x00000011:
+HAS_RELOC, HAS_SYMS
+start address 0x00000000
+private flags = 0: [APCS-32] [FPA float format]
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000bc  00000000  00000000  00000034  2**2
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  1 .data         00000004  00000000  00000000  000000f0  2**2
+                  CONTENTS, ALLOC, LOAD, RELOC, DATA
+  2 .bss          00000000  00000000  00000000  000000f4  2**0
+                  ALLOC
+  3 .rodata       00000074  00000000  00000000  000000f4  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  4 .comment      00000012  00000000  00000000  00000168  2**0
+                  CONTENTS, READONLY
+SYMBOL TABLE:
+00000000 l    df *ABS*	00000000 drv_c.c
+00000000 l    d  .text	00000000 
+00000000 l    d  .data	00000000 
+00000000 l    d  .bss	00000000 
+00000000 l    d  .rodata	00000000 
+00000000 l     O .data	00000004 banner
+00000000 l    d  .comment	00000000 
+00000000 g     F .text	0000003c task
+00000000         *UND*	00000000 puts
+00000000         *UND*	00000000 printk
+0000003c g     F .text	00000038 dll_main
+00000000         *UND*	00000000 kprintf
+00000074 g     F .text	00000024 dll_destroy
+00000098 g     F .text	00000024 dll_version
+
+
+Disassembly of section .text:
+
+00000000 <task>:
+   0:	e1a0c00d 	mov	ip, sp
+   4:	e92dd800 	stmdb	sp!, {fp, ip, lr, pc}
+   8:	e24cb004 	sub	fp, ip, #4	; 0x4
+   c:	e59f001c 	ldr	r0, [pc, #28]	; 30 <task+0x30>
+  10:	ebfffffe 	bl	0 <task>
+			10: R_ARM_PC24	puts
+  14:	e59f3018 	ldr	r3, [pc, #24]	; 34 <task+0x34>
+  18:	e59f0018 	ldr	r0, [pc, #24]	; 38 <task+0x38>
+  1c:	e5931000 	ldr	r1, [r3]
+  20:	ebfffffe 	bl	0 <task>
+			20: R_ARM_PC24	printk
+  24:	e3a03001 	mov	r3, #1	; 0x1
+  28:	e1a00003 	mov	r0, r3
+  2c:	e91ba800 	ldmdb	fp, {fp, sp, pc}
+  30:	0000001c 	andeq	r0, r0, ip, lsl r0
+			30: R_ARM_ABS32	.rodata
+  34:	00000000 	andeq	r0, r0, r0
+			34: R_ARM_ABS32	.data
+  38:	00000038 	andeq	r0, r0, r8, lsr r0
+			38: R_ARM_ABS32	.rodata
+
+0000003c <dll_main>:
+  3c:	e1a0c00d 	mov	ip, sp
+  40:	e92dd800 	stmdb	sp!, {fp, ip, lr, pc}
+  44:	e24cb004 	sub	fp, ip, #4	; 0x4
+  48:	e24dd008 	sub	sp, sp, #8	; 0x8
+  4c:	e50b0010 	str	r0, [fp, -#16]
+  50:	e3a03000 	mov	r3, #0	; 0x0
+  54:	e50b3014 	str	r3, [fp, -#20]
+  58:	e59f0010 	ldr	r0, [pc, #16]	; 70 <dll_main+0x34>
+  5c:	ebfffffe 	bl	0 <task>
+			5c: R_ARM_PC24	kprintf
+  60:	ebfffffe 	bl	0 <task>
+			60: R_ARM_PC24	task
+  64:	e3a03000 	mov	r3, #0	; 0x0
+  68:	e1a00003 	mov	r0, r3
+  6c:	e91ba800 	ldmdb	fp, {fp, sp, pc}
+  70:	0000003c 	andeq	r0, r0, ip, lsr r0
+			70: R_ARM_ABS32	.rodata
+
+00000074 <dll_destroy>:
+  74:	e1a0c00d 	mov	ip, sp
+  78:	e92dd800 	stmdb	sp!, {fp, ip, lr, pc}
+  7c:	e24cb004 	sub	fp, ip, #4	; 0x4
+  80:	e59f000c 	ldr	r0, [pc, #12]	; 94 <dll_destroy+0x20>
+  84:	ebfffffe 	bl	0 <task>
+			84: R_ARM_PC24	printk
+  88:	e3a03000 	mov	r3, #0	; 0x0
+  8c:	e1a00003 	mov	r0, r3
+  90:	e91ba800 	ldmdb	fp, {fp, sp, pc}
+  94:	0000004c 	andeq	r0, r0, ip, asr #32
+			94: R_ARM_ABS32	.rodata
+
+00000098 <dll_version>:
+  98:	e1a0c00d 	mov	ip, sp
+  9c:	e92dd800 	stmdb	sp!, {fp, ip, lr, pc}
+  a0:	e24cb004 	sub	fp, ip, #4	; 0x4
+  a4:	e59f000c 	ldr	r0, [pc, #12]	; b8 <dll_version+0x20>
+  a8:	ebfffffe 	bl	0 <task>
+			a8: R_ARM_PC24	printk
+  ac:	e3a03000 	mov	r3, #0	; 0x0
+  b0:	e1a00003 	mov	r0, r3
+  b4:	e91ba800 	ldmdb	fp, {fp, sp, pc}
+  b8:	00000064 	andeq	r0, r0, r4, rrx
+			b8: R_ARM_ABS32	.rodata

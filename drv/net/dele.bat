@@ -1,0 +1,11 @@
+del *.o
+del include\net\*.bak
+del *.bak
+del *.dll
+cd drv
+del *.o
+del *.bak
+cd ..\inet
+del *.o
+del *.bak
+cd ..

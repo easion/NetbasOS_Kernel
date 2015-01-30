@@ -1,0 +1,24 @@
+
+objs/drv_cpp.dll:     file format elf32-littlearm
+
+RELOCATION RECORDS FOR [.text]:
+OFFSET   TYPE              VALUE 
+00000010 R_ARM_PC24        puts
+00000020 R_ARM_PC24        printk
+00000030 R_ARM_ABS32       .rodata
+00000034 R_ARM_ABS32       .data
+00000038 R_ARM_ABS32       .rodata
+0000005c R_ARM_PC24        kprintf
+00000060 R_ARM_PC24        task
+00000070 R_ARM_ABS32       .rodata
+00000084 R_ARM_PC24        printk
+00000094 R_ARM_ABS32       .rodata
+000000a8 R_ARM_PC24        printk
+000000b8 R_ARM_ABS32       .rodata
+
+
+RELOCATION RECORDS FOR [.data]:
+OFFSET   TYPE              VALUE 
+00000000 R_ARM_ABS32       .rodata
+
+

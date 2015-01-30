@@ -1,0 +1,107 @@
+#
+# $Id: README 3075 2009-07-24 19:51:54Z marta $
+#
+
+This directory contains a port of ipfw and dummynet to Linux and OpenWrt
+(a Windows version is in the works but not ready yet).
+Building the code produces:
+
+	a kernel module,	ipfw_mod.ko
+	a userland program,	/sbin/ipfw
+
+The source code here comes straight from FreeBSD (roughly the
+version in RELENG_7 and HEAD as of June 2009), plus some glue code
+and headers written from scratch.
+Unless specified otherwise, all the code here is under a BSD license.
+
+=== To compile for a 2.6 kernel, simply run
+
+	make
+
+    Make sure that kernel headers (or sources) are installed on your
+    system, and that the link "/lib/modules/`uname -r`/build" points
+    to the header/source tree matching your kernel.
+
+    You can override the default kernel tree with
+
+	make KERNELPATH=your_kernel_source_tree
+
+    NOTE: make sure CONFIG_NETFILTER is enabled in the kernel
+    configuration file. You can enable it by doing
+    
+	"(cd ${KERNELPATH}; make menuconfig)"
+
+    and enabling the option listed below:
+
+        Networking --->
+	    Networking options  --->
+              [*] Network packet filtering framework (Netfilter)
+
+
+=== To compile for a 2.4 kernel:
+
+	make VER=2.4 KERNELPATH=...
+
+    You need to follow the same instruction for the 2.6 kernel, enabling
+    the kernel options:
+
+    Networking options  --->
+      [*] Network packet filtering (replaces ipchains)
+
+=== To build an Openwrt package
+
+    (Tested with kamikaze_8.09.1 and Linux 2.4)
+
+    + Download and extract the OpenWrt package, e.g.
+
+	wget http://downloads.openwrt.org/kamikaze/8.09.1/kamikaze_8.09.1_source.tar.bz2
+	tar xvjf kamikaze_8.09.1_source.tar.bz2
+
+    + "cd" to the directory with the OpenWrt sources (the one that
+      contains Config.in, rules.mk ...)
+
+	cd kamikaze_8.09.1
+
+    + Optional: to be sure that the tools are working, make a first
+      compilation as follows:
+
+	- run "make menuconfig" and set the correct target device,
+	  drivers, and so on;
+	- run "make" to do the build
+
+    + Add ipfw2 to the openwrt package, as follows:
+
+      - fetch and extract the code e.g.
+
+	(cd ..; \
+	wget http://info.iet.unipi.it/~luigi/dummynet/ipfw_linux-20090724.tgz;\
+	tar xvzf ipfw_linux-20090724.tgz; mv ipfw_linux-20090724 ipfw_mod;)
+
+	(but you should have done it already)
+
+      - run the following commands:
+	(mkdir package/ipfw2;
+	cp ../ipfw_linux/Makefile.openwrt package/ipfw2/Makefile)
+
+	to create the package/ipfw2 directory in the OpenWrt source
+	directory, and copy Makefile.openwrt to package/ipfw2/Makefile:
+
+      - if necessary, edit package/ipfw2/Makefile and set IPFW_DIR to point to
+	the directory with the ipfw sources (the directory
+	which contains this README, dummynet/ ipfw/ and so on);
+
+      - run "make menuconfig" and select ipfw2 as a module <M> in
+	    Kernel Modules -> Other modules -> ipfw2
+
+      - run "make" to build the package, "make V=99" for verbose build.
+
+    The resulting package is located in bin/packages/mipsel/kmod-ipfw2*,
+    upload the file and install on the target system, as follows:
+
+    opkg install  kmod-ipfw2_2.4.35.4-brcm-2.4-1_mipsel.ipk #install
+    ls -l ls -l /lib/modules/2.4.35.4/ipfw*     # check
+    insmod /lib/modules/2.4.35.4/ipfw_mod.o     # load the module
+    /lib/modules/2.4.35.4/ipfw show             # launch the userspace tool
+    rmmod ipfw_mod.o                            # remove the module
+
+-----------------------------------------------------------------------------

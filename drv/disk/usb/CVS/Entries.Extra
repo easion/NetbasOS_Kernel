@@ -1,0 +1,11 @@
+/Makefile////
+/jumpshot.c////
+/jumpshot.h////
+/protocol.c////
+/protocol.h////
+/scsi_convert.c////
+/scsi_convert.h////
+/transport.c////
+/transport.h////
+/usb_disk.c////
+/usb_disk.h////

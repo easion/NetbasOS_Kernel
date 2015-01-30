@@ -1,0 +1,7 @@
+/Makefile////
+/ata_amd.c////
+/ata_intel.c////
+/ata_pci.c////
+/ata_sis.c////
+/ata_timing.h////
+/ata_via.c////

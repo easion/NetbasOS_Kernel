@@ -1,0 +1,31 @@
+INTRODUCTION
+This is an  example of an udpserver   and a udpclient running  both in
+RTLinux.
+
+CONFIGURATION
+Modify sources to assign correctly IP addresses and run >make examples
+in the directory containing the Makefile.
+
+In the $(RTL_LWIP_SOURCES)/unix are available some  Linux apps to test
+udpserver and udpclient modules.
+
+If  you  run   in     RT-Linux the    udpserver.o  module,     in  the
+$(RTL_LWIP_SOURCES)/unix run
+
+>udpClient <tcpserver_ip> <text>
+
+in another machine to see how they communicate.
+
+If you want   to  run in  RT-Linux  the  udpclient.o  module,  in  the
+$(RTL_LWIP_SOURCES)/unix previously you have to had run
+
+>udpServer
+
+in another machine to see how they communicate.
+
+
+RTL-lwIP home page:
+
+http://rtl-lwip.sourceforge.net
+
+Please send comments to Sergio Perez <serpeal@upvnet.upv.es>
