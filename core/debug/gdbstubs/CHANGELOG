@@ -1,0 +1,33 @@
+$Id: CHANGELOG,v 1.4 2002/04/08 15:08:20 bgat Exp $
+
+Please add most recent changes to the TOP of this file.
+
+
+gdbstubs-20001007 (Benoit Miller, fulg@iname.com):
+==================================================
+
+- Added support for the Hitachi SH-4 775x architecture.
+  Includes a build script for use on the Sega Dreamcast(tm)
+  platform.
+
+- Added support for little-endian platforms (such as the
+  Dreamcast).
+
+- Added support for escaped-binary transfers.
+
+
+gdbstubs-20000921-1406 (Bill Gatliff, bgat@usa.net):
+====================================================
+(unspecified)
+
+
+gdbstubs-20000401 (Bill Gatliff, bgat@usa.net):
+===============================================
+(unspecified)
+
+
+gdbstubs-20000118 (Bill Gatliff, bgat@usa.net):
+===============================================
+
+Initial release.  Supports the Hitachi SH-2 704x architecture,
+and includes build script for the Hitachi 7045EDK platform.

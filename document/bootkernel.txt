@@ -1,0 +1,130 @@
+Jicama os开发资料：
+写这个文档的目的是为了帮助对jicama os有兴趣的朋友尽快了解jicama的构造，从而尽快加入jicma的开发队伍。
+第一次编写：easion 日期：2004年7月28日
+目前的编译环境: djgpp+nasm在windows xp的平台下面开发
+装载：grub 0.94 (vbe支持版本)
+
+启动菜单：(menu.lst文件)
+default=1
+timeout=60
+color black/yellow yellow/blue 
+
+title Jicama OS 
+root (fd0)
+kernel /boot/kernel root=/dev/fd0 fs_type=fat12　　＃内核文件
+module /boot/gb2312.fon　＃字体文件
+
+title Jicama OS - VESA 800*600*32 
+root (fd0)
+kernel /boot/kernel　＃内核
+vbeset 0x143　＃必须要有这个命令才能够进入vbe模式　0x143是模式号，可以参阅资料
+module /boot/gb2312.fon　＃字体文件
+module /boot/logo.bmp #这个是我们要显示的图片
+grub提供了一个模块装入参数（grub_info结构），大家可以看看core/modules.c这个文件。这里我就不多讲了。
+
+现在我们介绍一下jicama的代码结构：
+
+目录
+名称	内容	备注	开发者
+core	主要的内核（面向硬件无关性）	做到与平台无关性	
+arch	和硬件（cpu）相关部分		
+devices	设备驱动（总线驱动和块、字符设备）		
+vin	要做的一个视窗系统	现阶段比较紧要	
+fs	文件系统（FAT,EXT2,UJFS）	将来主要做fat	
+net	网络部分，主要是为了实现网络协议		
+sys	.h系统头文件		
+apps	应用程序		
+document	文档目录		
+bochs	Bochs是一个pc模拟器，用来调试		
+现在我们主要介绍一下jicama的启动过程：
+汇编部分：（arch\i386\startup.s）
+;这段代码实从grub引导的，当然也可能是其它的bootloader
+__boot_from_grub:
+	mov	esp,boot_stack  ;;确立堆栈顶段（这个不要也没关系）
+	
+	push	dword 0　;初始标志，填零
+	popf  ;Make sure the eflag register be 0
+
+	; ebx holds a pointer to
+	; the multiboot information block	
+	push ebx　;ebx里面存放的是grub引导信息的地址，对于os有很多帮助，不要随意丢弃
+	push eax　　;;grub地引导魔数（如果不是MULTIBOOT_BOOTLOADER_MAGIC的话，则可以断定不是来自grub）
+	mov eax, 0
+	cpuid
+	push edx ;获取简单的cpu信息
+       	call _start_kernel		; 调用C 代码（前面一共是三个参数）
+	jmp short $ ;system halted!　;;这个代码没有返回，操作系统进入了无限循环
+
+那么这段代码之后，开始执行core/main.c中的int start_kernel(u32_t cpu_features, u32_t multiboot_magic_number, grub_info_t* boot_jicama)这个函数。它的参数我在前面已经介绍了，下面我们直接看代码（注，这个代码是抓取的测试版本）：
+int start_kernel(u32_t cpu_features, u32_t multiboot_magic_number, grub_info_t* boot_jicama)
+{
+	unsigned cur_flag;
+	unsigned long base_mm;
+   extern void tty_init(void);
+	 extern void __vga_init(int tty_nr);
+	
+	     save_eflags(&cur_flag);　//获取当前的eflags
+	    
+	        tty_init();  //一定要先初始tty这张表，否则内核会不知道调用哪个代码来显示
+
+	 //初始视频显示
+//如果进入的是vbe模式，可以通过下面这个函数检测
+   if (CHECK_GRUB(boot_jicama->flags,11)){
+      lfb_init(boot_jicama);  //VESA模式(参看vin/driver/vbe.c)
+   }else{
+     __vga_init(VGA12_VC); //VGA模式
+   }
+
+  if ( multiboot_magic_number != MULTIBOOT_BOOTLOADER_MAGIC )      
+  {
+//标记出问题，不是grub引导的话
+     // we weren't loaded by a multiboot complaint boot loader. 
+     printk("GRUB is a good example of one. http://gnu.org/\n\n" );
+     panic("the jicama kernel needs a multiboot compliant boot loader.\n");
+  }
+
+      cp_grub_info(boot_jicama);　//保存引导信息
+	  grub_load_modules(boot_jicama);　//纪录启动模块，(menu.lst)
+
+	  grub_mmap(boot_jicama); //内存
+      grub_apm(boot_jicama);　//apm是否存在
+
+     load_gdt();　　//装入全局描叙符表
+	 machine_start();  //内存初始，一定要先初始表格后分页
+
+     grub_version(boot_jicama);    // grub的版本
+	 grub_get_boot(boot_jicama, &boot_parameters.bp_bootdev);　 //启动设备
+	 grub_mem_useable(boot_jicama, &base_mm, &boot_parameters.bp_ramsize);
+//可用内存
+	 grub_get_cmd(boot_jicama);　 //获取命令行：/boot/kernel root=/dev/fd0 fs_type=fat12
+
+	 printk("System Partition: %d\nMemory from GRUB: %d, total:%d\n",
+		 boot_parameters.bp_bootdev, base_mm, boot_parameters.bp_ramsize);
+
+	 //paging_init(ext_mm); //test paging 别管它
+
+	if(strncmp((char*)0x0FFFD9, "EISA", 4) == 0)
+        printk("EISA BUS Enable!");
+
+	 terminal_init(); //init device driver　初始设备驱动，代码在devices/terminal.c
+
+       
+	  fs_init(boot_parameters.bp_rootdev); //文件系统的初始，必须在terminal_init()　的后面
+
+      net_init();　//初始网络
+	  smp_scan();　//多处理起扫描
+	 
+      //为运行第一个应用程序作准备
+      init();  //select entry to user mode or kernel mode.
+  
+     while (1) ;
+     return 1;　//不可能返回的
+}
+
+
+
+
+
+
+
+

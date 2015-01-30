@@ -1,0 +1,7 @@
+#define SCC_BASE 0xFFF45000UL
+#define SCC_B_CTRL  (SCC_BASE+1)
+#define SCC_A_CTRL  (SCC_BASE+5)
+#define SCC_B_DATA  (SCC_BASE+3)
+#define SCC_A_DATA  (SCC_BASE+7)
+#define SCC_CLOCK 9830400L
+

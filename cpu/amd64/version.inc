@@ -1,0 +1,10 @@
+
+;;	VERSION CONFIGURATION
+%define	VER_SYS_MAJOR		0
+%define	VER_SYS_MINOR		15
+%define	VER_SYS_REVISION	155
+%define	VER_SYS_RELEASE		20050328
+%define	VER_OS_VENDOR_STRING	"Airemix"
+%define	VER_OS_NAME_STRING	"AireOS"
+%define	VER_NAME_STRING		"<Seaweed>"
+

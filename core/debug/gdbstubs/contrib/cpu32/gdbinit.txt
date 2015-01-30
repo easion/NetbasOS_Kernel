@@ -1,0 +1,53 @@
+# echo packets
+#set remotedebug 1
+
+# log packets
+set remotelogfile gdb.log
+
+# ----------------------------------------------------------------------------
+
+# connect to target
+target remote com1
+
+# ----------------------------------------------------------------------------
+
+# set up code load address at 0x400000-0x403fff
+
+# set up CSPAR1 - select ADDR19 for CS6 and 16-bit chip selects for CS9 & CS10
+set *(short*)0xfffa46 = 0x03fd
+
+# set up 16KByte of 16-bit ram for use as code space for application
+#  at address 0x400000 on CS9 & CS10
+
+# set up CSBAR9
+set *(short*)0xfffa70 = 0x4002
+
+# set up CSBAR10
+set *(short*)0xfffa74 = *(short*)0xfffa70
+
+# set up CSOR9
+set *(short*)0xfffa72 = 0x3830
+
+# set up CSOR10
+set *(short*)0xfffa76 = 0x5830
+
+# ----------------------------------------------------------------------------
+
+# load the test application
+load testapp.cof
+symbol-file testapp.cof
+
+# ----------------------------------------------------------------------------
+
+# show the program counter at every breakpoint and step
+disp /i $pc
+
+# ----------------------------------------------------------------------------
+
+# put a breakpoint at the start of the test application's application code
+# and run to it
+b testapp
+c
+
+# ----------------------------------------------------------------------------
+

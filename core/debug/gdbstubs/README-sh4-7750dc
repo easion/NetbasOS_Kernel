@@ -1,0 +1,292 @@
+$Id: README-sh4-7750dc,v 1.3 2002/04/08 15:08:20 bgat Exp $
+
+Procedure for compiling, linking and
+installing gdbstubs on the Sega Dreamcast.
+
+Copyright (c) 1999 by      William A. Gatliff
+All rights reserved.     bgat@open-widgets.com
+
+See the file COPYING for details.
+
+This file is provided "as-is", and without any express
+or implied warranties, including, without limitation,
+the implied warranties of merchantability and fitness
+for a particular purpose.
+
+The author welcomes feedback regarding this file.
+
+SH-4 support added by Benoit Miller (fulg@iname.com).
+
+Support for Sega Dreamcast(tm) added by Benoit Miller.
+
+Disclaimer
+----------
+
+This stub is in no way associated with nor endorsed by Sega. 
+All information herein is presented AS-IS, and is at your 
+own risk. "SEGA" and "DREAMCAST" are registered trademarks 
+of Sega Enterprises, Ltd.
+
+
+Table of contents
+-----------------
+
+    1. Quick instructions
+    2. Detailed instructions
+    3. Making a gdbstub DC boot disk
+    4. Things to know
+    5. Extra Credits
+    6. Final words
+
+-----------------
+
+1. Quickstart
+=============
+
+   - Compile the stub. (hint: 'make sh4-7750dc.srec')
+   - Boot your Dreamcast with the serial slave CD
+   - Upload 'sh4-7750dc.srec' to the Dreamcast
+   - Connect with gdb at 57600bps 8N1.
+   - Enjoy =)
+
+
+2. Detailed Instructions
+========================
+
+Compiling the stub for Dreamcast
+--------------------------------
+
+This step is fairly straightforward. First, open up the makefile
+in your favorite editor and change TARGET to match your target 
+type. For Dreamcast, you want to uncomment the line that says:
+
+  TARGET=sh-elf
+
+Now save the file, exit your editor, and type:
+
+  make clean sh4-7750dc.srec
+
+to generate the S-record file needed by the next step.
+
+
+Boot your Dreamcast with the serial slave CD
+--------------------------------------------
+
+Again, this should be easy enough. If you don't have the boot disk,
+you can find instructions on how to make one yourself here:
+
+  http://mc.pp.se/dc/serslave.html
+
+If you run Windows instead of Linux, you can find better-suited
+instructions here:
+
+  http://www3.sympatico.ca/fulg
+
+Explaining how the slave works (and how to make it) is not the 
+purpose of this file, the links given above should contain 
+enough information to get you up and running in no time.
+
+
+Upload 'sh4-7750dc.srec' to the Dreamcast
+-----------------------------------------
+
+Should be self-explanatory. Use your favorite terminal program to
+upload the file. Once the stub replies with 'OK', the sides of the
+screen will turn green, indicating that the stub is running.
+
+
+Connect with gdb at 57600bps 8N1
+--------------------------------
+
+I've had no luck with faster baudrates, if you feel lucky, you
+can change the baudrate value in sh4-7750dc.c.
+
+Make sure your .gdbinit file (or gdb.ini under Windows) contains
+the following two lines:
+
+  set endian little
+  set remotebaud 57600
+
+Also note that gdbstub will reside somewhere in the upper memory area 
+of the Dreamcast (namely, from 0x8ce0b800-0x8ce0ffff). If you want to
+change this behavior, read on...
+
+
+3. Making a gdbstub DC boot disk
+================================
+
+if you intend to put gdbstub on a bootable CD (I highly recommend it!), 
+I've included a special linker command file for that purpose. 
+
+The binary image of gdbstubs is small enough to be included entirely
+in the bootstrap portion of the IP.BIN. This has the added advantage
+that the memory layout used by gdbstub does not touch anything in the 
+normal program range (eg anything from 0x8c010000 and up).
+
+You'll need to edit the Makefile, and find the line that starts with
+"sh4-7750dc.out:". Directly under it, look for this option:
+
+  -Wl,-T$(basename $@)-ram.cmd
+                       ^^^
+and change it to
+
+  -Wl,-T$(basename $@)-cdrom.cmd
+                       ^^^^^
+We need a pure binary file for the CD, so build it now by typing:
+
+  make clean sh4-7750dc.bin
+
+This will create the binary file, ready to put into an IP.BIN.
+If the build fails, make sure that optimizations are turned on
+(CCFLAGS=-O2...) in the Makefile, or else the binary image will
+not fit in the tiny space reserved for bootstraps.
+
+Create your own IP.BIN (I used the one from the serial slave
+CD as a template), then insert gdbstub to replace the internal
+bootstrapping code at offset 0x6000:
+
+  dd if=ip.bin bs=1024 count=24 >tmp.bin
+  cat tmp.bin sh4-7750dc.bin >ipstub.bin
+
+Then use the instructions to make a serial slave boot CD (links
+given above), but use this new IPSTUB.BIN instead of the usual 
+IP.BIN.
+
+
+4. Things to know
+=================
+
+There are still issues with the stub if you try to step
+past the end of your program (eg past the end of main()). 
+Since this behavior would normally reset the Dreamcast
+(because there is no operating system), I haven't tried 
+really hard to fix it. The stub will try to reset itself 
+but will behave erratically from that point on...
+
+Also, note that the current version will not try to switch
+to its own stack while debugging. In reality this is no
+big deal (since gdbstub will write "below" your current sp)
+but it can possibly change the behavior of a broken debugged
+program. More specifically, if you have uninitialized 
+local variables on the stack, the initial value of that 
+variable may be different while debugging.
+
+In other words, gdbstub is not yet debuggee-stack-clean. 
+This is not supposed to be a big deal in almost any scenario 
+(relying on the state of the stack is bad practice!), but it's
+something to be aware of.
+
+
+5. Extra Credits
+================
+
+This SH-4 port would not be possible without the generous (though 
+indirect) contributions of other people's open source work:
+
+The cache clearing routine (gdb_flush_cache), the escaped-binary
+decoding routine (ebin_to_mem), and the SCIF init procedure
+were either based on or directly taken from the existing sh-stub 
+done by the SH-Linux team (http://www.sh-linux.org/ and 
+http://www.m17n.org/linux-sh/).
+
+The stub initialization code (set_debug_traps) was originally
+from Dan Potter (bard@allusion.net).
+
+The piece of assembly code that computes the proper SCBRR2 
+value from a baud rate was originally written by Marcus Comstedt
+(marcus@idonex.se).
+
+
+6. Final words
+==============
+
+If you need more details, you can always try to email me
+(fulg@iname.com) and I'll be happy to help. I'd also be
+interested to know if anyone manages to find a simpler way
+to put this on a bootable CD... =)
+
+Cheers,
+--
+Benoit Miller - fulg@iname.com
+"There is no spoon."
+
+
+
+
+#
+#  Copyright (c) 2001 by      William A. Gatliff
+#  All rights reserved.      bgat@billgatliff.com
+#
+#  See the file COPYING for details.
+#
+#  This file is provided "as-is", and without any express
+#  or implied warranties, including, without limitation,
+#  the implied warranties of merchantability and fitness
+#  for a particular purpose.
+#
+#  The author welcomes feedback regarding this file.
+#
+#  $Id: README-sh4-7750dc,v 1.3 2002/04/08 15:08:20 bgat Exp $
+
+Wow, this needs work.
+
+To build for sh2-7045edk:
+sh-elf-gcc -g -DCRT0 -DSH2_7045EDK -nostartfiles -Wl,--script=sh2-edk.ld \
+   gdb.c sh2.c sh2-edk.c
+
+What I would like:
+
+CROSS_COMPILE=sh-elf- TARGET=SH2_7045EDK make gdbstub.lib
+CROSS_COMPILE=sh-elf- TARGET=SH2_7045EDK make gdbstub
+
+[bgat@mars gdbstubs]$ rm -f a.out a.s19; m68k-elf-gcc -mcpu32 -Wall -g -DCRT0 -DSMC1UART -nostartfiles -Wl,--script=cpu32-mc68360.ld gdb.c cpu32.c cpu32-mc68360.c && m68k-elf-objcopy -O srec a.out a.s19
+
+
+maybe:
+
+if TARGET=SH2_7045EDK
+objs = gdb.o sh2.o sh2-edk.o
+cflags = -O2 -Wall -I. -DSH2_7045EDK
+
+For the "gdbstub" target, (sh-elf-gdbstub?) add -DCRT0; omit for gdbstub.lib
+
+***
+
+
+CC=$(CROSS_COMPILE)gcc $(COMMON_CFLAGS)
+LD=$(CROSS_COMPILE)ld
+AS=$(CROSS_COMPILE)as
+AR=$(CROSS_COMPILE)ar
+OBJCOPY=$(CROSS_COMPILE)objcopy
+
+COMMON_CFLAGS = -O2 -Wall -I.
+
+
+# Hitachi SH2 architecture, various platforms
+# -DSH2_7045EDK -- sh2 7045edk platform
+SH2_7045EDK=gdb.c sh2.c sh2edk.c
+
+sh2-7045edk.out: $(SH2_7045EDK)
+	$(CC) -m2 -Wl,-T$(basename $@).cmd -nostartfiles \
+		-Wl,-M -Wl,-Map=$(basename $@).map -Wl,--cref \
+		-Wl,--output=$@ $(SH2_7045EDK)
+
+# Hitachi SH4 architecture, Sega Dreamcast platform
+SH4_7750DC=sh4-7750dc.c sh4-775x.c gdb.c
+
+sh4-7750dc.srec: sh4-7750dc.out
+	$(OBJCOPY) -S -j .text -j .except \
+		-O srec sh4-7750dc.out $@
+
+sh4-7750dc.bin: sh4-7750dc.out
+	$(OBJCOPY) -S -j .text -j .except \
+		-O binary sh4-7750dc.out $@
+
+sh4-7750dc.out: $(SH4_7550DC)
+	$(CC) -m4 -ml -Wl,-T$(basename $@)-ram.cmd -nostartfiles \
+		-Wl,-M -Wl,-Map=$(basename $@).map -Wl,--cref \
+		-Wl,--output=$@ $(SH4_7750DC)
+
+clean:
+	-rm -rf *.out *.bin *.srec *.o
+

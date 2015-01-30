@@ -1,0 +1,16 @@
+#set debug remote 1
+#set remotelogfile gdb_logfile
+
+set remotebaud 115200
+set remote memory-write-packet-size 200
+set height 0
+set confirm 0
+target remote /dev/ttyS0
+
+# chip select setup for Axiom CME-2107 external 16-bit RAM on CS1
+set $rCSCR1 = 0xC20002
+set *(unsigned short *) $rCSCR1 = 0x0303
+
+# chip select setup for CMB/EVB-2107 external 32-bit RAM on CS2
+set $rCSCR2 = 0xC20004
+set *(unsigned short *) $rCSCR2 = 0x2303

@@ -1,0 +1,57 @@
+$Id: readme-m68k-68060-mvme172,v 1.1 2001/05/18 15:54:05 bgat Exp $
+
+This is the gdbstubs project.  This project aims to produce
+reusable gdb stubs for a variety of embedded architectures
+and platforms.
+
+Portions of this code are designed to be reused.  These are all
+the files that don't have an architecture- or platform- specific
+name, i.e. gdb.c and gdb.h.
+
+To port this code to a new platform or architecture, use an existing
+architecture/platform combination as a starting point.  Copy those
+files, renaming them as appropriate (use the existing platform
+and architecture names in the Cygnus configure script as a guide).
+
+Then start hacking.
+
+For example, if I wanted to port this code to the CPU32 architecture
+and a '336 FOOBAR platform (a.k.a. "68336 single board computer",
+"evaluation board", "evaluation kit", etc.), and I wanted to use the
+Hitachi 704x architecture and 7045edk platform as a starting point, I
+would do this:
+
+   cp sh2-704x.c      m68k-cpu32.c
+   cp sh2-704x.h      m68k-cpu32.h
+   cp sh2-7045edk.c   m68k-cpu32-336FOOBAR.c
+   cp sh2-7045edk.h   m68k-cpu32-336FOOBAR.h
+   cp sh2-7045edk.cmd m68k-cpu32-336FOOBAR.cmd
+
+Then I would edit all the functions in m68k-cpu32* to make them work.
+
+To be nice, I would also update the Makefile, and create a
+README-m68k-cpu32-336FOOBAR.
+
+
+Bill Gatliff
+bgat@open-widgets.com
+
+------------------------
+GDB stub hack for the MVME172
+I defined the following directory structure, in order to make more of code re-usable:
+  gdb - contains general GDB functions (from Bill Gatliff)
+  gdb\68K - Functions specific to the 68K processor (registers and interrupt definitions)
+  gdb\Z8530 - Stub Communication routines specific to the Z8530 device
+  gdb\mvme172 Port of stub for specific target (the MVME172). Defines makefile, cfg.h (baud rate) and sercfg.h (set-up
+              of serial port) and bootstub.ld (bad name as the stub is not loaded first-thing).
+              As little code as possible is in this directory, as it is hard to re-use.
+
+This hack still needs a lot of work, (minimum implementation)
+Maybe somebody would be nice enough to finish it off?
+
+To build the stub, go to mvme172; edit cc.bat and run if you use windoze; then 'make stub' to make the stub!
+To run the stub, load to RAM at 0x30000 and go 0x30000 (I have 0x30000 to 0xA0000 open for this kind of thing). I also
+use 68k-bug and SingleStep for debugging (I don't want to boot the stub directly).
+
+Charles du Toit
+charles@mtek.co.za

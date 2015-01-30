@@ -1,0 +1,71 @@
+uart.o: uart.c ../../../sys/jicama/system.h ../../../sys/jicama/config.h \
+  ../../../sys/arch/arm/regs.h ../../../sys/arch/arm/dev.h \
+  ../../../sys/type.h ../../../sys/errno.h ../../../sys/jicama/kernel.h \
+  ../../../sys/jicama/trace.h ../../../sys/jicama/log.h \
+  ../../../sys/jicama/utsname.h ../../../sys/jicama/process.h \
+  ../../../sys/jicama/message.h ../../../sys/jicama/ipc.h \
+  ../../../sys/jicama/paging.h ../../../sys/arch/arm/page.h \
+  ../../../sys/jicama/fs.h ../../../sys/jicama/thread.h \
+  ../../../sys/signal.h ../../../sys/jicama/console.h \
+  ../../../sys/termios.h ../../../sys/jicama/devices.h \
+  ../../../sys/assert.h at91.h at91_usart.h
+at91_init.o: at91_init.c ../../../sys/jicama/system.h \
+  ../../../sys/jicama/config.h ../../../sys/arch/arm/regs.h \
+  ../../../sys/arch/arm/dev.h ../../../sys/type.h ../../../sys/errno.h \
+  ../../../sys/jicama/kernel.h ../../../sys/jicama/trace.h \
+  ../../../sys/jicama/log.h ../../../sys/jicama/utsname.h \
+  ../../../sys/jicama/process.h ../../../sys/jicama/message.h \
+  ../../../sys/jicama/ipc.h ../../../sys/jicama/paging.h \
+  ../../../sys/arch/arm/page.h ../../../sys/jicama/fs.h \
+  ../../../sys/jicama/thread.h ../../../sys/signal.h \
+  ../../../sys/jicama/console.h ../../../sys/termios.h \
+  ../../../sys/jicama/devices.h ../../../sys/assert.h at91.h at91_aic.h \
+  at91_tc.h at91_usart.h AT91RM9200.h
+clock.o: clock.c ../../../sys/jicama/process.h \
+  ../../../sys/jicama/config.h ../../../sys/arch/arm/regs.h \
+  ../../../sys/arch/arm/dev.h ../../../sys/jicama/message.h \
+  ../../../sys/jicama/ipc.h ../../../sys/type.h \
+  ../../../sys/jicama/paging.h ../../../sys/arch/arm/page.h \
+  ../../../sys/jicama/fs.h ../../../sys/jicama/thread.h \
+  ../../../sys/signal.h at91.h at91_tc.h at91_aic.h
+aic.o: aic.c at91_aic.h at91.h
+cpu.o: cpu.c ../../../sys/jicama/system.h ../../../sys/jicama/config.h \
+  ../../../sys/arch/arm/regs.h ../../../sys/arch/arm/dev.h \
+  ../../../sys/type.h ../../../sys/errno.h ../../../sys/jicama/kernel.h \
+  ../../../sys/jicama/trace.h ../../../sys/jicama/log.h hardware.h \
+  AT91RM9200.h
+serial.o: serial.c ../../../sys/jicama/system.h \
+  ../../../sys/jicama/config.h ../../../sys/arch/arm/regs.h \
+  ../../../sys/arch/arm/dev.h ../../../sys/type.h ../../../sys/errno.h \
+  ../../../sys/jicama/kernel.h ../../../sys/jicama/trace.h \
+  ../../../sys/jicama/log.h ../../../sys/jicama/utsname.h \
+  ../../../sys/jicama/process.h ../../../sys/jicama/message.h \
+  ../../../sys/jicama/ipc.h ../../../sys/jicama/paging.h \
+  ../../../sys/arch/arm/page.h ../../../sys/jicama/fs.h \
+  ../../../sys/jicama/thread.h ../../../sys/signal.h \
+  ../../../sys/jicama/console.h ../../../sys/termios.h \
+  ../../../sys/jicama/devices.h hardware.h AT91RM9200.h
+interrupts.o: interrupts.c ../../../sys/jicama/system.h \
+  ../../../sys/jicama/config.h ../../../sys/arch/arm/regs.h \
+  ../../../sys/arch/arm/dev.h ../../../sys/type.h ../../../sys/errno.h \
+  ../../../sys/jicama/kernel.h ../../../sys/jicama/trace.h \
+  ../../../sys/jicama/log.h ../../../sys/jicama/utsname.h \
+  ../../../sys/jicama/process.h ../../../sys/jicama/message.h \
+  ../../../sys/jicama/ipc.h ../../../sys/jicama/paging.h \
+  ../../../sys/arch/arm/page.h ../../../sys/jicama/fs.h \
+  ../../../sys/jicama/thread.h ../../../sys/signal.h \
+  ../../../sys/jicama/console.h ../../../sys/termios.h \
+  ../../../sys/jicama/devices.h ../../../sys/assert.h at91.h at91_aic.h \
+  at91_tc.h at91_usart.h AT91RM9200.h
+at45.o: at45.c ../../../sys/jicama/system.h ../../../sys/jicama/config.h \
+  ../../../sys/arch/arm/regs.h ../../../sys/arch/arm/dev.h \
+  ../../../sys/type.h ../../../sys/errno.h ../../../sys/jicama/kernel.h \
+  ../../../sys/jicama/trace.h ../../../sys/jicama/log.h \
+  ../../../sys/jicama/utsname.h ../../../sys/jicama/process.h \
+  ../../../sys/jicama/message.h ../../../sys/jicama/ipc.h \
+  ../../../sys/jicama/paging.h ../../../sys/arch/arm/page.h \
+  ../../../sys/jicama/fs.h ../../../sys/jicama/thread.h \
+  ../../../sys/signal.h ../../../sys/jicama/console.h \
+  ../../../sys/termios.h ../../../sys/jicama/devices.h \
+  ../../../sys/assert.h at91.h at91_aic.h at91_tc.h at91_usart.h \
+  AT91RM9200.h hardware.h

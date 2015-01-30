@@ -1,0 +1,95 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+meminfo             0xc               xen.o
+stack_safe          0x4               mem.o
+start_info          0x450             xen.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+
+__xen_guest     0x00000000       0x64
+ *(__xen_guest)
+ __xen_guest    0x00000000       0x64 boot.o
+
+.image          0x80000000     0x4bc8
+                0x80000000                ktext_start = .
+ *(K_TEXT_START)
+ K_TEXT_START   0x80000000     0x3000 boot.o
+                0x80002000                console_page
+                0x80001000                shared_info
+                0x80000000                hypercall_page
+ *(.text)
+ .text          0x80003000     0x1020 boot.o
+                0x80003000                _start
+                0x8000301e                xen_callback
+                0x8000301f                xen_failsafe_callback
+ .text          0x80004020      0x369 xen.o
+                0x80004020                arch_pre_main
+                0x80004350                arch_pre_smp_init
+                0x80004341                arch_post_mm_init
+                0x80004373                pm_init
+                0x8000435f                start_kernel
+                0x80004332                arch_pre_mm_init
+ *fill*         0x80004389        0x3 00
+ .text          0x8000438c       0x12 mem.o
+                0x80004399                memory_print_map
+                0x8000438c                get_memory_size
+ *fill*         0x8000439e        0x2 00
+ .text          0x800043a0       0xd3 console.o
+                0x800043a0                xen_console_init
+                0x800043bd                xen_puts
+ *fill*         0x80004473        0x1 00
+ .text          0x80004474       0x72 traps.o
+                0x80004474                traps_init
+                0x800044e6                ktext_end = .
+                0x800044e6                kdata_start = .
+ *(.data)
+ *fill*         0x800044e6        0x2 00
+ *(.rodata*)
+ .rodata.str1.1
+                0x800044e8       0x28 xen.o
+ *(COMMON)
+ *fill*         0x80004510       0x10 00
+ COMMON         0x80004520      0x470 xen.o
+                                  0x0 (size before relaxing)
+                0x80004520                meminfo
+                0x80004540                start_info
+ COMMON         0x80004990        0x4 mem.o
+                                  0x0 (size before relaxing)
+                0x80004990                stack_safe
+                0x80004994                hardcoded_load_address = .
+                0x80004994        0x4 LONG 0x80000000
+                0x80004998                hardcoded_ktext_size = .
+                0x80004998        0x4 LONG 0x44e6 (ktext_end - ktext_start)
+                0x8000499c                hardcoded_kdata_size = .
+                0x8000499c        0x4 LONG 0x6e2 (kdata_end - kdata_start)
+                0x800049a0                symbol_table = .
+ *(symtab.*)
+ *(.bss)
+ .bss           0x800049a0        0x4 console.o
+ *fill*         0x800049a4       0x1c 00
+ .bss           0x800049c0      0x208 traps.o
+                0x80004bc8                kdata_end = .
+
+/DISCARD/
+ *(.note.GNU-stack)
+ *(.comment)
+LOAD boot.o
+LOAD xen.o
+LOAD mem.o
+LOAD console.o
+LOAD traps.o
+OUTPUT(kernel.bin elf32-i386)
+
+.stab
+
+.stabstr
+
+.rel.dyn

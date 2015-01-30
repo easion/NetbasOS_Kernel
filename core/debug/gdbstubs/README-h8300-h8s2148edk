@@ -1,0 +1,159 @@
+ABREVIATED USER'S GUIDE FOR THE H8300/H8S2148EDK STUB
+
+Bill Gatliff, March 2003
+bgat@billgatliff.com
+
+
+CONSTRUCTION
+
+Requires an h8300-elf toolchain.
+
+$ make h8300-stub
+
+This also constructs a short test program.
+
+
+INSTALLATION
+
+Use the Flash Development Toolkit supplied with the Hitachi H8S2148EDK
+to program h8300-h8s2148edk-stub.mot into your EDK.
+
+
+
+DEBUGGING WITH THE EDK
+
+Attach your PC to the EDK's SCI0 port.  Start gdb, and do something
+like the following:
+
+$ h8300-elf-gdb h8300-h8s2148edk-test.elf
+(gdb) set remotebaud 9600
+(gdb) set machine h8300s
+(gdb) target remote /dev/ttyS0
+
+Gdb is now connected to the EDK.  Turn on the EDK's external SRAM:
+(gdb) set $mdcr  = 0xffffc5
+(gdb) set $wscr  = 0xffffc7
+(gdb) set $p1ddr = 0xffffb0
+(gdb) set $p2ddr = 0xffffb1
+(gdb) set $paddr = 0xffffab
+(gdb) set *(char*)$wscr = 0
+(gdb) set *(char*)$mdcr = 0x80
+(gdb) set *(char*)$p1ddr = 0xff
+(gdb) set *(char*)$p2ddr = 0xff
+(gdb) set *(char*)$paddr = 0xff
+
+Now you can load and run the supplied test program:
+
+(gdb) load
+(gdb) tb main
+(gdb) continue
+(gdb) step
+(gdb) stepi
+(gdb) ...
+
+The supplied gdbinit file does most of the above.  Use it like this:
+
+$ h8300-elf-gdb h8300-h8s2148edk-test.elf -x h8300-h8s2148edk.gdbinit
+(gdb) ...
+
+Or, like this:
+
+$ h8300-elf-gdb h8300-h8s2148edk-test.elf
+(gdb) source h8300-h8s2148edk.gdbinit
+(gdb) ...
+
+Or, like this: if you rename or symlink h8300-h8s2148edk.gdbinit to
+".gdbinit", gdb will invoke it automatically at startup.
+
+
+The supplied gdbinit file is very verbose, and very conservative.  To
+improve performance, comment out the "set remote X-packet 0" line to
+enable X packets.  To quiet down the display, comment out the "set
+debug remote 1" line.  Gdb interprets any line that begins with a "#"
+to be a comment line.  (If you have any problems with the stub,
+however, I'll need you to turn those commands back on).
+
+
+MEMORY MAP
+
+The debugging agent uses about 560 bytes of RAM at 0xffe080 for its
+register file and stack.  The stub code starts at address 0, and is
+approximately 6k in length.  From objdump:
+
+$ h8300-elf-objdump --headers h8300-h8s2148edk-stub.elf
+
+h8300-h8s2148edk-stub.elf:     file format elf32-h8300
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000015d8  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .rodata       000002e0  000015d8  000015d8  0000164c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .data         00000000  00ffe080  00ffe080  0000192c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .sbss         00000000  00ffe080  00ffe080  0000192c  2**0
+                  CONTENTS
+  4 .bss          00000230  00ffe080  00ffe080  0000192c  2**2
+                  ALLOC
+  5 .debug_aranges 00000060  00000000  00000000  0000192c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_pubnames 0000022a  00000000  00000000  0000198c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_info   00000dd1  00000000  00000000  00001bb6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_abbrev 000003ab  00000000  00000000  00002987  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_line   00000f45  00000000  00000000  00002d32  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000003f1  00000000  00000000  00003c77  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .stack        00000000  00ffff80  00ffff80  00004068  2**0
+                  CONTENTS
+
+The .stack section is only used during initialization; the debugging
+agent's stack pointer gets reset to an address in .data as soon as an
+exception occurs.
+
+
+BUILDING PROGRAMS FOR DEBUGGING
+
+Use the supplied linker command file when debugging with the h8300
+debugging agent.  The linker command file place your program into the
+EDK's external SRAM, and will prevent you from overwriting the stub's
+code or stack space by mistake.
+
+See the Makefile for the commands used to build the test application,
+they will be similar for your application.
+
+
+
+REBUILDING THE DEBUGGING AGENT
+
+Assuming you have an h8300-elf toolchain, the stub that goes into the
+EDK can be rebuilt like this:
+
+$ make h8300-stub
+
+
+
+PROGRAMMING WITH THE DEBUGGING AGENT
+
+You may want to integrate the debugging agent into your application code.
+
+To do this, first clone the code in the H8300_H8S2148EDK section of
+h8300.c.  Link gdb.c, h8300.c, and h8300.S with your application, call
+gdb_startup(), and make sure that the TRAPA #3 vector points to
+h8300_trapa_handler().
+
+During development, you can compile in a breakpoint (useful for
+debugging in flash) with the gdb_breakpoint() macro found in h8300.h.
+
+The debugging agent as supplied used a polled serial port driver.  See
+gdb_getc() and gdb_putc() in h8300.c.
+
+The typical C runtime library for embedded GNU, newlib, does not know
+how to handle console output on the H8 family.  Let me know if you are
+interested in having me modify newlib so that printf() will go to the
+gdb console through the debugging agent.
+

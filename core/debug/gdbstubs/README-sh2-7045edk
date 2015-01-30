@@ -1,0 +1,76 @@
+$Id: README-sh2-7045edk,v 1.3 2002/04/08 15:08:20 bgat Exp $
+
+Procedure for compiling, linking and
+installing gdbstubs on the Hitachi 7045 EDK.
+
+Copyright (c) 1999 by      William A. Gatliff
+All rights reserved.     bgat@billgatliff.com
+
+See the file COPYING for details.
+
+This file is provided "as-is", and without any express
+or implied warranties, including, without limitation,
+the implied warranties of merchantability and fitness
+for a particular purpose.
+
+The author welcomes feedback regarding this file.
+
+
+Table of contents
+-----------------
+
+    1. Quick instructions
+    2. Detailed instructions
+
+-----------------
+
+
+1. Quick instructions
+=====================
+
+1. Build the standalone SH7045EDK stub (see sh2-704x.c).
+2. Make sure the 7045 UPB isn't bypassed (JP2, JP3)
+3. Using F-ZTAT on a Windows PC, download gdbstub.out to the EDK
+4. Connect with gdb to SCI0 115200bps
+
+
+2. Detailed Instructions
+========================
+
+Build the standalone SH7045EDK stub
+-----------------------------------
+
+See the instructions in sh2-704x.c.  You'll want the Motorola S-Record
+output file.
+
+
+Make sure the 7045 UPB isn't bypassed (JP2, JP3)
+------------------------------------------------
+
+The stub uses SCI0 to communicate with gdb.  The UPB is connected to
+SCI1, and is sometimes bypassed via its JP2 and JP3 jumpers to permit
+high-speed (greater than 38400 bps or so, the exact number escapes me)
+communications.
+
+You cannot program on-chip flash if the UPB is bypassed.  To set the
+UPB back into the non-bypassed configuration, make sure that JP2's and
+JP3's pins 1 and 2 are shorted together, and that pins 3 and 4 are
+shorted together.  (See Figure 7.4 in the EDK7045F User's Manual for a
+clearer description).
+
+
+Using the Flash utility, download sh2-stub.mot to EDK flash
+-----------------------------------------------------------
+
+Requires a Windows PC.  Should be self-explanatory.  Consult section 8
+of the EDK7045F User Manual for more information on this if necessary.
+
+
+Connect with gdb to SCI0, N81 115,200
+-------------------------------------
+
+The above numbers are the default speeds and ports.  To change them,
+change the definitions for SSR, TDR, RDR, etc. in sh2-704x.c.  If you
+find yourself doing this a lot, consider adding a new #define block
+for your target.
+

@@ -1,0 +1,8 @@
+119c119
+<   word	          cregs [32];		/* control registers */
+---
+>   word	          cregs [13];		/* control registers */
+137c137
+< #define LAST_VALID_CREG	32		/* only 0..12 implemented */
+---
+> #define LAST_VALID_CREG	13		/* only 0..12 implemented */

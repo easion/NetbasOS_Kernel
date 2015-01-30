@@ -1,0 +1,25 @@
+/* data from bochs
+. SVGA modes 0x6A added
+
+Mode   Reso    Color Model Wndw-A  Wndw-B Siz Gra Wnd-Func Linear
+ 100  640x400   8bit Pixel A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 101  640x480   8bit Pixel ---- -- ---- -- 64 64 0000:0000 E0000000 
+ 102  800x600   4bit VGA16 A000 RW ---- -- 64 64 C000:6C4B -------- 
+ 103  800x600   8bit Pixel A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 105 1024x768   8bit Pixel A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 110  640x480  15bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 111  640x480  16bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 112  640x480  24bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 113  800x600  15bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 114  800x600  16bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 115  800x600  24bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 116 1024x768  15bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 117 1024x768  16bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 118 1024x768  24bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 142  640x480  32bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 143  800x600  32bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 144 1024x768  32bit Dcolr A000 RW ---- -- 64 64 C000:6C4B E0000000 
+ 146  320x200   8bit Pixel ---- -- ---- -- 64 64 0000:0000 E0000000 
+*/
+
+

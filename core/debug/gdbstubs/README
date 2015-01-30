@@ -1,0 +1,40 @@
+$Id: README,v 1.2 2000/04/01 04:08:57 bgat Exp $
+
+This is the gdbstubs project.  This project aims to produce
+reusable gdb stubs for a variety of embedded architectures
+and platforms.
+
+Portions of this code are designed to be reused.  These are all
+the files that don't have an architecture- or platform- specific
+name, i.e. gdb.c and gdb.h.
+
+To port this code to a new platform or architecture, use an existing
+architecture/platform combination as a starting point.  Copy those
+files, renaming them as appropriate (use the existing platform
+and architecture names in the Cygnus configure script as a guide).
+
+Then start hacking.
+
+For example, if I wanted to port this code to the CPU32 architecture
+and a '336 FOOBAR platform (a.k.a. "68336 single board computer",
+"evaluation board", "evaluation kit", etc.), and I wanted to use the
+Hitachi 704x architecture and 7045edk platform as a starting point, I
+would do this:
+
+   cp sh2-704x.c      m68k-cpu32.c
+   cp sh2-704x.h      m68k-cpu32.h
+   cp sh2-7045edk.c   m68k-cpu32-336FOOBAR.c
+   cp sh2-7045edk.h   m68k-cpu32-336FOOBAR.h
+   cp sh2-7045edk.cmd m68k-cpu32-336FOOBAR.cmd
+
+Then I would edit all the functions in m68k-cpu32* to make them work.
+
+To be nice, I would also update the Makefile, and create a
+README-m68k-cpu32-336FOOBAR.
+
+
+Bill Gatliff
+bgat@open-widgets.com
+
+
+

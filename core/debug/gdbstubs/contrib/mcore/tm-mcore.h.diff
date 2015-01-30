@@ -1,0 +1,12 @@
+44c44
+<    32 32-bit control registers (cr0-cr31)
+---
+>    13 32-bit control registers (cr0-cr12)
+47,49c47,49
+<    65 registers */
+< #define NUM_REGS 65
+< #define PC_REGNUM 64
+---
+>    46 registers */
+> #define NUM_REGS 46
+> #define PC_REGNUM 45

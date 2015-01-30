@@ -1,0 +1,87 @@
+$Id: COPYING.gdbstubs,v 1.1 2003/03/26 17:15:31 bgat Exp $
+
+This is the gdbstubs project.
+
+This software is provided WITHOUT WARRANTY of any kind.
+
+You may reproduce, modify, display, perform, sublicense and/or
+distribute the contents of this project, with or without
+modifications, or as part of a larger work, under the following
+conditions:
+
+
+Preamble
+--------
+
+Gdbstubs itself is intended to be Free Software (no, not Open Source
+Software).  The terms herein are intended to follow the spirit of the
+GNU General Public License, but in an embedded-friendly setting.
+
+Gdbstubs is intended for use in Free, Open, and proprietary embedded
+systems.  The goal, however, is that each time gdbstubs is ported to a
+new processor architecture or evaluation board, some code comes back to
+the mainline distribution so that others may benefit.
+
+Share and share alike.
+
+There are very few "proprietary parts" in gdbstubs, as the
+architecture lends itself to openness.  The only parts of gdbstubs
+that I could consider to be even potentially proprietary are your
+implementations of getc(), putc() and startup().  As you will see in
+the Terms section, such parts do not fall under the terms of this
+license, but with a caveat.
+
+An implementation of gdbstubs for a processor architecture that the
+GNU compiler already supports would not be considered proprietary,
+because all you are doing is modifying the internals of gdbstubs
+itself (the implementations of gdb_step(), etc.).  All such code
+should come back into the mainline gdbstubs for redistribution.
+
+Share and share alike.
+Share and share alike.
+
+
+Definitions
+-----------
+
+"Modification" -- an addition to or deletion from the substance or
+structure of either the original gdbstubs code, or a derivative
+thereof.
+
+"License" -- this document.
+
+
+Terms
+-----
+
+1.  The gdbstubs Modifications you create or to which you contribute
+    must be governed by the terms of this License, without limitation.
+
+2.  You must include an unmodified copy of this License with every copy
+    of the gdbstubs source code you distribute.  You may rename this file
+    to COPYING.gdbstubs if necessary.  You must inform your users of the
+    rights they have under this License.
+
+3.  Any gdbstubs Modification which you create or to which you contribute
+    must be made available in source code form under the terms of this
+    License.
+
+4.  Implemenations of gdb_getc(), gdb_putc(), and gdb_startup(),
+    although they frequently appear in the gdbstubs source code, are not
+    considered part of gdbstubs, and may remain proprietary if you like,
+    subject to the stipulations in Item 5 of the Terms.
+
+5.  If you produce a Modification of gdbstubs for a processor or
+    architecture that was previously unsupported by gdbstubs, you must,
+    to the best of your ability, also provide a compatible and suitably
+    generic implementation of gdb_getc(), gdb_putc(), and gdb_startup()
+    for reference.
+
+
+
+Bill Gatliff
+bgat@billgatliff.com
+
+
+
+

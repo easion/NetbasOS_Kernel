@@ -1,0 +1,40 @@
+default=1
+timeout=30
+color black/yellow yellow/blue 
+#http://jicama.126.com/
+#boot jicama os
+#if boot on qemu:
+#START qemu.exe -L . -m 128 -hda harddisk -cdrom dsl.iso -boot d -enable-audio -user-net -localtime
+
+title Jicama OS 64BIT
+root (fd0)
+kernel /boot/amd64 root=fd0 
+module /system/kern64.elf
+
+
+title Jicama OS 0.14
+root (fd0)
+kernel /boot/kernel.gz root=fd0 
+module /system/servers/kegui.dll   [DLL]
+module /system/drivers/pci.dll   [DLL]
+#module /system/font/hzk16.gz   [CHINESE]
+module /system/drivers/fdc.dll   [DLL]
+module /system/drivers/ne2000.dll   [DLL]
+module /system/servers/net.gz ip=172.26.153.191 mask=255.255.0.0   [DLL]
+module /system/servers/fs.sys.gz -rfda -mrw  [DLL]
+module /system/init.gz  sh=/bin/sh [init]
+
+#title Jicama OS NETBOOT
+#ifconfig --address=192.168.0.2 --server=192.168.0.1
+#tftpserver 192.168.0.1
+#kernel=(nd)/tftpboot/yourOS/kernel
+#module=(nd)/tftpboot/yourOS/driver1
+
+title Jicama OS 0.13.a hd
+root (fd0)
+kernel /boot/kernel.gz root=fd0 
+module /system/drivers/sb16.dll   [DLL]
+module /system/drivers/fdc.dll   [DLL]
+module /system/drivers/hd.dll   [DLL]
+module /system/servers/fs.sys.gz -rhdc -mrw  [DLL]
+module /system/init   [init]
